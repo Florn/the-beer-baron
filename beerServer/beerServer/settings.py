@@ -31,7 +31,8 @@ ALLOWED_HOSTS = ['0.0.0.0', 'localhost']
 INSTALLED_APPS = [
     'django.contrib.admin', 'django.contrib.auth',
     'django.contrib.contenttypes', 'django.contrib.sessions',
-    'django.contrib.messages', 'django.contrib.staticfiles', 'gqlserver'
+    'django.contrib.messages', 'django.contrib.staticfiles', 'gqlserver',
+    'graphene_django'
 ]
 
 MIDDLEWARE = [
@@ -42,6 +43,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+GRAPHENE = [
+    'SCHEMA': 'graphql_demo.schema.schema'
 ]
 
 ROOT_URLCONF = 'beerServer.urls'
