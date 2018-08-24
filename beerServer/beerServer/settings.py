@@ -45,9 +45,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-GRAPHENE = [
-    'SCHEMA': 'graphql_demo.schema.schema'
-]
+GRAPHENE = {'SCHEMA': 'beerServer.schema.schema'}
 
 ROOT_URLCONF = 'beerServer.urls'
 
