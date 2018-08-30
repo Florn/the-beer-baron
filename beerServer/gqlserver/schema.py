@@ -14,5 +14,5 @@ class MessageType(DjangoObjectType):
 class Query(graphene.AbstractType):
     all_messages = DjangoFilterConnectionField(MessageType)
 
-    def resolve_all_messages(self, args, context, info):
+    def resolve_all_messages(self, info, **kwargs):
         return models.Message.objects.all()
