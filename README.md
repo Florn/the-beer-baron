@@ -1,6 +1,7 @@
 # the-beer-baron
 
 ## Installation
+
 This project uses Python 3.6 for the Django server, and a virtual environment to manage dependencies.
 
 ### MacOS dependencies installation
@@ -16,6 +17,7 @@ pip install -r requirements.txt
 cd beerServer
 ./manage.py runserver
 ```
+
 This will start a local server at localhost:8000
 
 ## urls

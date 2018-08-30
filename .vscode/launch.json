@@ -1,0 +1,15 @@
+{
+  "name": "Django",
+  "type": "python",
+  "request": "launch",
+  "stopOnEntry": false,
+  "pythonPath": "${workspaceFolder}/venv/bin/python",
+  "program": "${workspaceRoot}/beerServer/manage.py",
+  "args": ["runserver", "--no-color", "--noreload"],
+  "debugOptions": [
+    "WaitOnAbnormalExit",
+    "WaitOnNormalExit",
+    "RedirectOutput",
+    "DjangoDebugging"
+  ]
+}
