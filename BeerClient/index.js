@@ -3,16 +3,32 @@
 import { AppRegistry } from "react-native";
 import App from "./App";
 import { name as appName } from "./app.json";
-// import { ApolloClient } from "apollo-client";
 import { ApolloProvider } from "react-apollo";
 import ApolloClient from "apollo-boost";
 
-// Create the client as outlined in the setup guide
-// const client = new ApolloClient();
+import gql from "graphql-tag";
 
 const client = new ApolloClient({
-  uri: "http://localhost:8000/"
+  uri: "http://localhost:8000/graphql/"
 });
+
+client
+  .query({
+    query: gql`
+      {
+        allMessages(last: 19) {
+          edges {
+            node {
+              id
+              message
+            }
+          }
+        }
+      }
+    `
+  })
+  .then(result => console.log(result))
+  .catch(result => console.log(result));
 
 const AppRoot = () => (
   <ApolloProvider client={client}>
