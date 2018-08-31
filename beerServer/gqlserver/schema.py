@@ -36,8 +36,33 @@ class CreateMessage(graphene.Mutation):
         return CreateMessage(message=message, form_errors=None)
 
 
+class CreateUser(graphene.Mutation):
+    class Input:
+        first_name = graphene.String()
+        second_name = graphene.String()
+        email = graphene.String()
+        password = graphene.String()
+
+    form_errors = graphene.String()
+    newUser = graphene.Field(lambda: UserType)
+
+    @staticmethod
+    def mutate(self, info, first_name, second_name, email, password):
+        if not info.context.user.is_authenticated:
+            print('14')
+            return CreateUser(form_errors=json.dumps('Please login!'))
+        newUser = models.User.objects.create(
+            user=info.context.user,
+            first_name=first_name,
+            second_name=second_name,
+            email=email,
+            password=password)
+        return CreateUser(newUser=newUser, form_errors=None)
+
+
 class Mutation(graphene.AbstractType):
     create_message = CreateMessage.Field()
+    create_user = CreateUser.Field()
 
 
 class Query(graphene.AbstractType):
