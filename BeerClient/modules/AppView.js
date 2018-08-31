@@ -8,20 +8,14 @@
 
 import React, { Component } from "react";
 import { Platform, StyleSheet, Text, View } from "react-native";
-
-const instructions = Platform.select({
-  ios: "Press Cmd+R to reload,\n" + "Cmd+D or shake for dev menu",
-  android:
-    "Double tap R on your keyboard to reload,\n" +
-    "Shake or press menu button for dev menu"
-});
+import Registration from "./signup/Registration";
 
 type Props = {};
 export default class AppView extends Component<Props> {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>Beer Client</Text>
+        <Registration style={styles.welcome} />
       </View>
     );
   }
@@ -32,12 +26,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#F5FCFF"
+    backgroundColor: "#c2984c"
   },
   welcome: {
-    fontSize: 20,
-    textAlign: "center",
-    margin: 10
+    flex: 1
   },
   instructions: {
     textAlign: "center",
