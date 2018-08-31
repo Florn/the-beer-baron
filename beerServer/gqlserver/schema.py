@@ -12,6 +12,13 @@ class MessageType(DjangoObjectType):
         interfaces = (graphene.Node, )
 
 
+class UserType(DjangoObjectType):
+    class Meta:
+        model = models.User
+        filter_fields = []
+        interfaces = (graphene.Node, )
+
+
 class CreateMessage(graphene.Mutation):
     class Input:
         message = graphene.String()
@@ -35,6 +42,10 @@ class Mutation(graphene.AbstractType):
 
 class Query(graphene.AbstractType):
     all_messages = DjangoFilterConnectionField(MessageType)
+    all_users = DjangoFilterConnectionField(UserType)
 
     def resolve_all_messages(self, info, **kwargs):
         return models.Message.objects.all()
+
+    def resolve_all_users(self, info, **kwargs):
+        return models.User.objects.all()
