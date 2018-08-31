@@ -9,24 +9,28 @@ export const styles = StyleSheet.create({
   nameInputsContainer: {
     height: 40,
     width: Dimensions.get("window").width * 0.9,
-    flexDirection: "row"
+    flexDirection: "row",
+    justifyContent: "space-between"
   },
   emailInputContainer: {
     marginTop: 5,
     height: 40,
-    width: Dimensions.get("window").width * 0.9,
-    flexDirection: "row"
+    width: Dimensions.get("window").width * 0.9
   },
   passwordInputContainer: {
     marginTop: 5,
     height: 40,
-    width: Dimensions.get("window").width * 0.9,
-    flexDirection: "row"
+    width: Dimensions.get("window").width * 0.9
+  },
+  registerButtonContainer: {
+    marginTop: 5,
+    height: 40,
+    width: Dimensions.get("window").width * 0.9
   },
   nameInput: {
     height: "100%",
-    width: "48%",
-    marginHorizontal: "1%",
+    width: "49%",
+    paddingLeft: 5,
     borderColor: "gray",
     borderWidth: 1,
     fontSize: 20,
@@ -35,7 +39,7 @@ export const styles = StyleSheet.create({
   emailInput: {
     height: "100%",
     width: "100%",
-    marginHorizontal: "1%",
+    paddingLeft: 5,
     borderColor: "gray",
     borderWidth: 1,
     fontSize: 20,
@@ -44,10 +48,19 @@ export const styles = StyleSheet.create({
   passwordInput: {
     height: "100%",
     width: "100%",
-    marginHorizontal: "1%",
+    paddingLeft: 5,
     borderColor: "gray",
     borderWidth: 1,
     fontSize: 20,
     justifyContent: "center"
-  }
+  },
+  registerButton: {
+    height: "100%",
+    width: "100%",
+    borderColor: "gray",
+    borderWidth: 1,
+    fontSize: 20,
+    justifyContent: "center"
+  },
+  registerButtonText: { color: "gray", alignSelf: "center", fontSize: 17 }
 });

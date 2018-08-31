@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View, TextInput } from "react-native";
+import { Text, View, TextInput, TouchableOpacity } from "react-native";
 import { styles } from "./Registration.styles";
 
 export default class Registration extends Component {
@@ -51,6 +51,11 @@ export default class Registration extends Component {
             placeholder={"password..."}
             onChangeText={input => this.updateUserDetails("password", input)}
           />
+        </View>
+        <View style={styles.registerButtonContainer}>
+          <TouchableOpacity style={styles.registerButton}>
+            <Text style={styles.registerButtonText}>Register</Text>
+          </TouchableOpacity>
         </View>
       </View>
     );
