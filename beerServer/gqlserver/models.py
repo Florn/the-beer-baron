@@ -8,7 +8,7 @@ class Message(models.Model):
     message = models.TextField()
 
 
-class User(models.Model):
+class Customer(models.Model):
     user = models.ForeignKey('auth.User', on_delete=models.PROTECT)
     creation_date = models.DateTimeField(auto_now_add=True)
     first_name = models.TextField()
