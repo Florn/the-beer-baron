@@ -1,0 +1,15 @@
+{
+  "name": "beer-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Flann McMorrow",
+  "license": "ISC",
+  "dependencies": {
+    "graphql": "^14.0.2",
+    "graphql-yoga": "^1.16.7"
+  }
+}
