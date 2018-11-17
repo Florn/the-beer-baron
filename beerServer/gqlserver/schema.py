@@ -1,8 +1,14 @@
 import graphene
 from graphene_django.types import DjangoObjectType
+from django.contrib.auth.models import User
 from graphene_django.filter.fields import DjangoFilterConnectionField
 from . import models
 import json
+
+
+class UserType(DjangoObjectType):
+    class Meta:
+        model = User
 
 
 class MessageType(DjangoObjectType):
@@ -73,9 +79,17 @@ class Mutation(graphene.AbstractType):
 class Query(graphene.AbstractType):
     all_messages = DjangoFilterConnectionField(MessageType)
     all_customers = DjangoFilterConnectionField(CustomerType)
+    current_user = graphene.Field(UserType)
 
     def resolve_all_messages(self, info, **kwargs):
         return models.Message.objects.all()
 
     def resolve_all_customers(self, info, **kwargs):
         return models.Customer.objects.all()
+
+    def resolve_current_user(self, info, **kwargs):
+        print("resolve_current_user")
+        if not info.context.user.is_authenticated:
+            print("resolve_current_user not authenticated")
+            return None
+        return info.context.user
