@@ -2,6 +2,8 @@
 // ... or using `require()`
 const { GraphQLServer } = require("graphql-yoga");
 
+const mongo = require("mongodb");
+
 MongoClient = require("mongodb").MongoClient;
 
 // Connection URL
@@ -10,50 +12,52 @@ const url = "mongodb://localhost:27017";
 // Database Name
 const dbName = "beerDatabase";
 
-MongoClient.connect(
-  url,
-  { useNewUrlParser: true },
-  function(err, client) {
-    console.log("Connected successfully to server");
+async function createMongoClient() {
+  const client = await MongoClient.connect(
+    url,
+    { useNewUrlParser: true }
+  );
+  return client;
+}
 
-    // const db = client.db(dbName);
-
-    // findDocuments(db, function() {
-    //   client.close();
-    // });
-  }
-);
-
-const findDocuments = function(db, callback) {
-  // Get the documents collection
-  const collection = db.collection("users");
-  // Find some documents
-  collection.find({}).toArray(function(err, docs) {
-    // assert.equal(err, null);
-    console.log("Found the following records");
-    console.log(docs);
-    callback(docs);
-  });
+const prepare = o => {
+  o._id = o._id.toString();
+  return o;
 };
 
-const typeDefs = `
-  type User {
-    id: Int!
-    firstName: String
-    lastName: String
-  }
-  type Query {
-    users: [User]
-  }
-`;
+const start = async () => {
+  try {
+    const client = await createMongoClient();
+    const db = client.db(dbName);
+    const UsersCollection = await db.collection("users");
 
-const resolvers = {
-  Query: {
-    users: () => {
-      return users;
-    }
+    const typeDefs = `
+      type User {
+        _id: String
+        firstName: String
+        lastName: String
+      }
+      type Query {
+        users: [User],
+        user(_id: String): User
+      }
+    `;
+
+    const resolvers = {
+      Query: {
+        users: async () => {
+          return (await UsersCollection.find({}).toArray()).map(prepare);
+        },
+        user: async (parent, { _id }) => {
+          return prepare(await UsersCollection.findOne(mongo.ObjectId(_id)));
+        }
+      }
+    };
+
+    const server = new GraphQLServer({ typeDefs, resolvers });
+    server.start(() => console.log("Server is running on localhost:4000"));
+  } catch (e) {
+    console.log(e);
   }
 };
-
-const server = new GraphQLServer({ typeDefs, resolvers });
-server.start(() => console.log("Server is running on localhost:4000"));
+start();
