@@ -13,7 +13,8 @@ import {
   FormLabel,
   FormInput,
   FormValidationMessage,
-  Button
+  Button,
+  Header
 } from "react-native-elements";
 import { Navigation } from "react-native-navigation";
 import { goHome } from "../navigation/navigation";
@@ -69,11 +70,10 @@ export default class Registration extends Component {
     const forms = this.getInputData();
     return forms.map(form => {
       return (
-        <View key={form.property} style={{ marginHorizontal: 20 }}>
+        <View key={form.property}>
           <FormLabel>{form.title}</FormLabel>
           <FormInput
             onChangeText={input => this.updateUserDetails(form.property, input)}
-            inputStyle={{ width: Dimensions.get("window").width * 0.95 }}
           />
         </View>
       );
@@ -85,7 +85,7 @@ export default class Registration extends Component {
     return (
       <Mutation mutation={CREATE_USER}>
         {(createUser, { data, loading, error }) => (
-          <View>
+          <View style={{ flex: 1, justifyContent: "center" }}>
             <View>{this.renderForm()}</View>
             <View>
               <Button
@@ -104,9 +104,11 @@ export default class Registration extends Component {
                     .then(response => {
                       AsyncStorage.setItem(
                         "userId",
-                        response.data.createUser._id.toString()
+                        response.data.createUser._id,
+                        () => {
+                          goHome();
+                        }
                       );
-                      goHome();
 
                       console.log("Response", response);
                     })
@@ -114,6 +116,7 @@ export default class Registration extends Component {
                       console.log("Apollo error", error);
                     });
                 }}
+                raised
               >
                 <Text style={styles.registerButtonText} />
               </Button>
@@ -126,7 +129,14 @@ export default class Registration extends Component {
 
   render() {
     return (
-      <ApolloConsumer>{client => this.renderMutation(client)}</ApolloConsumer>
+      <View style={{ flex: 1, justifyContent: "center" }}>
+        <Header
+          leftComponent={{ icon: "menu", color: "#fff" }}
+          centerComponent={{ text: "MY TITLE", style: { color: "#fff" } }}
+          rightComponent={{ icon: "home", color: "#fff" }}
+        />
+        <ApolloConsumer>{client => this.renderMutation(client)}</ApolloConsumer>
+      </View>
     );
   }
 }
