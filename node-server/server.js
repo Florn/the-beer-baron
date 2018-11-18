@@ -36,9 +36,10 @@ const start = async () => {
         _id: String
         firstName: String
         lastName: String
+        email: String
       }
       type Query {
-        users: [User],
+        users: [User]
         user(_id: String): User
       }
       type Mutation {
@@ -52,6 +53,7 @@ const start = async () => {
           return (await UsersCollection.find({}).toArray()).map(prepare);
         },
         user: async (parent, { _id }) => {
+          console.log("Server", _id);
           return prepare(await UsersCollection.findOne(mongo.ObjectId(_id)));
         }
       },
