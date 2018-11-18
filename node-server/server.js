@@ -41,6 +41,9 @@ const start = async () => {
         users: [User],
         user(_id: String): User
       }
+      type Mutation {
+        createUser(firstName: String, lastName: String, email: String, password: String): User
+      }
     `;
 
     const resolvers = {
@@ -50,6 +53,15 @@ const start = async () => {
         },
         user: async (parent, { _id }) => {
           return prepare(await UsersCollection.findOne(mongo.ObjectId(_id)));
+        }
+      },
+      Mutation: {
+        createUser: async (root, args, context, info) => {
+          const res = await UsersCollection.insert(args);
+
+          return prepare(
+            await UsersCollection.findOne({ _id: res.insertedIds[0] })
+          );
         }
       }
     };
