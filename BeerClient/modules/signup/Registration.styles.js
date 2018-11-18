@@ -1,66 +1,19 @@
 import { StyleSheet, Dimensions } from "react-native";
 
 export const styles = StyleSheet.create({
-  signupFieldsContainer: {
-    flex: 1,
-    justifyContent: "center",
-    flexDirection: "column"
-  },
-  nameInputsContainer: {
-    height: 40,
-    width: Dimensions.get("window").width * 0.9,
-    flexDirection: "row",
-    justifyContent: "space-between"
-  },
-  emailInputContainer: {
-    marginTop: 5,
-    height: 40,
-    width: Dimensions.get("window").width * 0.9
-  },
-  passwordInputContainer: {
-    marginTop: 5,
-    height: 40,
-    width: Dimensions.get("window").width * 0.9
-  },
-  registerButtonContainer: {
-    marginTop: 5,
-    height: 40,
-    width: Dimensions.get("window").width * 0.9
-  },
-  nameInput: {
-    height: "100%",
-    width: "49%",
-    paddingLeft: 5,
-    borderColor: "gray",
-    borderWidth: 1,
-    fontSize: 20,
-    justifyContent: "center"
-  },
-  emailInput: {
-    height: "100%",
-    width: "100%",
-    paddingLeft: 5,
-    borderColor: "gray",
-    borderWidth: 1,
-    fontSize: 20,
-    justifyContent: "center"
-  },
-  passwordInput: {
-    height: "100%",
-    width: "100%",
-    paddingLeft: 5,
-    borderColor: "gray",
-    borderWidth: 1,
-    fontSize: 20,
-    justifyContent: "center"
-  },
   registerButton: {
-    height: "100%",
-    width: "100%",
+    // height: 50,
+    width: "84%",
+    margin: 10,
     borderColor: "gray",
-    borderWidth: 1,
-    fontSize: 20,
-    justifyContent: "center"
+    // borderWidth: 1,
+    alignSelf: "center",
+    padding: 14
   },
-  registerButtonText: { color: "gray", alignSelf: "center", fontSize: 17 }
+
+  registerButtonText: {
+    color: "black",
+    alignSelf: "center",
+    fontSize: 17
+  }
 });
