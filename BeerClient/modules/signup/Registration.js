@@ -17,6 +17,7 @@ import {
 } from "react-native-elements";
 import { Navigation } from "react-native-navigation";
 import { goHome } from "../navigation/navigation";
+import { AsyncStorage } from "react-native";
 
 const CREATE_USER = gql`
   mutation createUser(
@@ -101,7 +102,12 @@ export default class Registration extends Component {
                     }
                   })
                     .then(response => {
+                      AsyncStorage.setItem(
+                        "userId",
+                        response.data.createUser._id.toString()
+                      );
                       goHome();
+
                       console.log("Response", response);
                     })
                     .catch(error => {

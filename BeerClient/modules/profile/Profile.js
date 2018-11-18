@@ -7,12 +7,15 @@ import {
   View,
   TouchableOpacity
 } from "react-native";
+import { Query, ApolloConsumer } from "react-apollo";
 export default class Profile extends Component {
   render() {
     return (
-      <View style={{ flex: 1 }}>
-        <Text>Profile</Text>
-      </View>
+      <ApolloConsumer>
+        <View style={{ flex: 1 }}>
+          <Text>Profile</Text>
+        </View>
+      </ApolloConsumer>
     );
   }
 }
