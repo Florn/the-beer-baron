@@ -1,41 +1,39 @@
 import React, { Component } from "react";
-import { Text, View, TextInput, TouchableOpacity } from "react-native";
+import {
+  Text,
+  View,
+  TextInput,
+  TouchableOpacity,
+  Dimensions
+} from "react-native";
 import { styles } from "./Registration.styles";
 import gql from "graphql-tag";
 import { Mutation, ApolloConsumer } from "react-apollo";
+import {
+  FormLabel,
+  FormInput,
+  FormValidationMessage,
+  Button
+} from "react-native-elements";
+import { Navigation } from "react-native-navigation";
+import { goHome } from "../navigation/navigation";
 
-// const REGISTER_USER = gql`
-//   mutation CreateCustomer(
-//     $firstName: String
-//     $secondName: String
-//     $email: String
-//     $password: String
-//   ) {
-//     createCustomer(
-//       email: $email
-//       password: $password
-//       firstName: $firstName
-//       secondName: $secondName
-//     ) {
-//       customer {
-//         id
-//         firstName
-//         secondName
-//         email
-//         password
-//       }
-//       formErrors
-//     }
-//   }
-// `;
-const REGISTER_USER = gql`
-  mutation {
-    createMessage(message: "create message") {
-      message {
-        id
-        creationDate
-      }
-      formErrors
+const CREATE_USER = gql`
+  mutation createUser(
+    $firstName: String
+    $lastName: String
+    $email: String
+    $password: String
+  ) {
+    createUser(
+      firstName: $firstName
+      lastName: $lastName
+      email: $email
+      password: $password
+    ) {
+      _id
+      firstName
+      lastName
     }
   }
 `;
@@ -45,11 +43,20 @@ export default class Registration extends Component {
     super();
     this.state = {
       firstName: null,
-      secondName: null,
+      lastName: null,
       email: null,
       password: null
     };
   }
+
+  getInputData = field => {
+    return [
+      { title: "First Name", property: "firstName" },
+      { title: "Last Name", property: "lastName" },
+      { title: "Email", property: "email" },
+      { title: "Password", property: "password" }
+    ];
+  };
 
   updateUserDetails = (detail, input) => {
     this.setState({
@@ -57,63 +64,44 @@ export default class Registration extends Component {
     });
   };
 
+  renderForm = () => {
+    const forms = this.getInputData();
+    return forms.map(form => {
+      return (
+        <View key={form.property} style={{ marginHorizontal: 20 }}>
+          <FormLabel>{form.title}</FormLabel>
+          <FormInput
+            onChangeText={input => this.updateUserDetails(form.property, input)}
+            inputStyle={{ width: Dimensions.get("window").width * 0.95 }}
+          />
+        </View>
+      );
+    });
+  };
+
   renderMutation = client => {
     let input;
-    debugger;
     return (
-      <Mutation mutation={REGISTER_USER}>
-        {(addTodo, { data }) => (
-          <View style={styles.signupFieldsContainer}>
-            <View style={styles.nameInputsContainer}>
-              <TextInput
-                style={styles.nameInput}
-                value={this.state.firstName}
-                placeholder={"first name..."}
-                onChangeText={input =>
-                  this.updateUserDetails("firstName", input)
-                }
-              />
-              <TextInput
-                style={styles.nameInput}
-                value={this.state.secondName}
-                placeholder={"second name..."}
-                onChangeText={input =>
-                  this.updateUserDetails("secondName", input)
-                }
-              />
-            </View>
-            <View style={styles.emailInputContainer}>
-              <TextInput
-                style={styles.emailInput}
-                value={this.state.email}
-                placeholder={"email..."}
-                onChangeText={input => this.updateUserDetails("email", input)}
-              />
-            </View>
-            <View style={styles.passwordInputContainer}>
-              <TextInput
-                style={styles.passwordInput}
-                value={this.state.password}
-                placeholder={"password..."}
-                onChangeText={input =>
-                  this.updateUserDetails("password", input)
-                }
-              />
-            </View>
-            <View style={styles.registerButtonContainer}>
-              <TouchableOpacity
-                style={styles.registerButton}
+      <Mutation mutation={CREATE_USER}>
+        {(createUser, { data, loading, error }) => (
+          <View>
+            <View>{this.renderForm()}</View>
+            <View>
+              <Button
+                buttonStyle={styles.registerButton}
+                title={loading ? "" : "Register"}
+                loading={loading}
                 onPress={() => {
-                  debugger;
-                  addTodo({
+                  createUser({
                     variables: {
                       firstName: this.state.firstName,
-                      secondName: this.state.secondName,
+                      lastName: this.state.lastName,
                       email: this.state.email,
                       password: this.state.password
                     }
                   })
                     .then(response => {
+                      goHome();
                       console.log("Response", response);
                     })
                     .catch(error => {
@@ -121,8 +109,8 @@ export default class Registration extends Component {
                     });
                 }}
               >
-                <Text style={styles.registerButtonText}>Register</Text>
-              </TouchableOpacity>
+                <Text style={styles.registerButtonText} />
+              </Button>
             </View>
           </View>
         )}
@@ -130,22 +118,7 @@ export default class Registration extends Component {
     );
   };
 
-  registerUser = addTodo => {
-    console.log(addTodo);
-    addTodo({
-      variables: {
-        firstName: this.state.firstName,
-        secondName: this.state.secondName,
-        email: this.state.email,
-        password: this.state.password
-      }
-    })
-      .then(nonError => console.log("nonOrror", nonError))
-      .catch(nonError => console.log("error", nonError));
-  };
-
   render() {
-    console.log("Registration", this);
     return (
       <ApolloConsumer>{client => this.renderMutation(client)}</ApolloConsumer>
     );
