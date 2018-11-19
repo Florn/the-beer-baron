@@ -1,4 +1,4 @@
-package com.beerclient;
+package com.client;
 
 import android.app.Application;
 
