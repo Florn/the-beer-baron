@@ -1,0 +1,5 @@
+{
+  "parser": "babel-eslint",
+  "plugins": ["react", "react-native"],
+  "extends": ["airbnb-base", "plugin:import/errors"]
+}
