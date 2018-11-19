@@ -4,6 +4,7 @@ MongoClient = require("mongodb").MongoClient;
 const jwt = require("jsonwebtoken");
 const { verifyJWTToken, createJWToken } = require("./modules/auth/authorise");
 const gql = require("graphql-tag");
+const { middlewares } = require("./modules/middleware");
 // Connection URL
 const url = "mongodb://localhost:27017";
 // Database Name
@@ -18,6 +19,7 @@ async function createMongoClient() {
 }
 
 const prepare = o => {
+  if (!o) return;
   o._id = o._id.toString();
   return o;
 };
@@ -56,7 +58,6 @@ const start = async () => {
           return (await UsersCollection.find({}).toArray()).map(prepare);
         },
         user: async (parent, { _id }) => {
-          console.log("Server", _id);
           return prepare(await UsersCollection.findOne(mongo.ObjectId(_id)));
         }
       },
@@ -71,7 +72,11 @@ const start = async () => {
       }
     };
 
-    const server = new GraphQLServer({ typeDefs, resolvers });
+    const server = new GraphQLServer({
+      typeDefs,
+      resolvers,
+      middlewares
+    });
     server.start(() => console.log("Server is running on localhost:4000"));
   } catch (e) {
     console.log(e);
