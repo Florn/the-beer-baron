@@ -1,14 +1,11 @@
-// import { GraphQLServer } from 'graphql-yoga'
-// ... or using `require()`
 const { GraphQLServer } = require("graphql-yoga");
-
 const mongo = require("mongodb");
-
 MongoClient = require("mongodb").MongoClient;
-
+const jwt = require("jsonwebtoken");
+const { verifyJWTToken, createJWToken } = require("./modules/auth/authorise");
+const gql = require("graphql-tag");
 // Connection URL
 const url = "mongodb://localhost:27017";
-
 // Database Name
 const dbName = "beerDatabase";
 
@@ -31,19 +28,25 @@ const start = async () => {
     const db = client.db(dbName);
     const UsersCollection = await db.collection("users");
 
-    const typeDefs = `
+    const typeDefs = gql`
       type User {
         _id: String
         firstName: String
         lastName: String
         email: String
+        jwt: String
       }
       type Query {
         users: [User]
         user(_id: String): User
       }
       type Mutation {
-        createUser(firstName: String, lastName: String, email: String, password: String): User
+        createUser(
+          firstName: String
+          lastName: String
+          email: String
+          password: String
+        ): User
       }
     `;
 
