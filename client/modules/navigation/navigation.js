@@ -8,3 +8,12 @@ export const goHome = () =>
       }
     }
   });
+
+export const goToMap = () =>
+  Navigation.setRoot({
+    root: {
+      component: {
+        name: "Map"
+      }
+    }
+  });

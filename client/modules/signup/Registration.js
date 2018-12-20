@@ -17,7 +17,7 @@ import {
   Header
 } from "react-native-elements";
 import { Navigation } from "react-native-navigation";
-import { goHome } from "../navigation/navigation";
+import { goToMap } from "../navigation/navigation";
 import { AsyncStorage } from "react-native";
 
 const CREATE_USER = gql`
@@ -106,7 +106,7 @@ export default class Registration extends Component {
                         "userId",
                         response.data.createUser._id,
                         () => {
-                          goHome();
+                          goToMap();
                         }
                       );
 
