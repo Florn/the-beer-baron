@@ -4,24 +4,27 @@
 
 This project uses Python 3.6 for the Django server, and a virtual environment to manage dependencies.
 
-### MacOS dependencies installation
+### Running client
 
 ```
-source venv/bin/activate
-pip install -r requirements.txt
+cd client
+yarn
+yarn start
+```
+Open xcode project in `/ios`.
+
+### Running backend
+```
+cd backend
+yarn
+yarn start
 ```
 
-## Running the Django server
-
+In terminal, spin up `mongodb`:
 ```
-cd beerServer
-./manage.py runserver
+mongod
 ```
-
-This will start a local server at localhost:8000
-
-## urls
-
-http://localhost:8000/graphql
-
-http://localhost:8000/admin
+Then, in another terminal:
+```
+mongo
+```
